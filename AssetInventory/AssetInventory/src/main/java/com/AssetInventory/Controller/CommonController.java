@@ -24,6 +24,7 @@ import com.AssetInventory.Model.Designation;
 import com.AssetInventory.Model.Desk;
 import com.AssetInventory.Model.Project;
 import com.AssetInventory.Model.Room;
+import com.AssetInventory.Model.Spare;
 import com.AssetInventory.Model.State;
 import com.AssetInventory.Model.Subsidiary;
 import com.AssetInventory.Model.UnitOfMeasurement;
@@ -39,6 +40,7 @@ import com.AssetInventory.Repository.DesignationRepo;
 import com.AssetInventory.Repository.DeskRepo;
 import com.AssetInventory.Repository.ProjectRepo;
 import com.AssetInventory.Repository.RoomRepo;
+import com.AssetInventory.Repository.SpareRepo;
 import com.AssetInventory.Repository.StateRepo;
 import com.AssetInventory.Repository.SubsidiaryRepo;
 import com.AssetInventory.Repository.UnitOfMeasurementRepo;
@@ -80,8 +82,174 @@ public class CommonController {
 	BrandRepo brandRepo;
 	@Autowired
 	UnitOfMeasurementRepo unitOfMeasurementRepo;
+	@Autowired
+	SpareRepo spareRepo;
+	
+	
+	
 	
 
+	@RequestMapping(value = "/deleteWorklocation", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject deleteWorklocation(@RequestBody Worklocation worklocation) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			worklocationRepo.delete(worklocation);
+			responceObject.setCode(200);
+			responceObject.setMsg("Worklocation Deleted Successfully");
+		} catch (Exception e) {
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
+	
+	
+	@RequestMapping(value = "/deleteSubsidiary", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject deleteSubsidiary(@RequestBody Subsidiary subsidiary) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			subsidiaryRepo.delete(subsidiary);
+			responceObject.setCode(200);
+			responceObject.setMsg("Subsidiary Deleted Successfully");
+		} catch (Exception e) {
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
+	
+	
+	
+	@RequestMapping(value = "/deleteRoom", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject deleteRoom(@RequestBody Room room) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			roomRepo.delete(room);
+			responceObject.setCode(200);
+			responceObject.setMsg("Room Deleted Successfully");
+		} catch (Exception e) {
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
+	
+	
+	@RequestMapping(value = "/deleteProject", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject deleteProject(@RequestBody Project project) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			projectRepo.delete(project);
+			responceObject.setCode(200);
+			responceObject.setMsg("Project Deleted Successfully");
+		} catch (Exception e) {
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
+
+	@RequestMapping(value = "/deleteDesk", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject deleteDesk(@RequestBody Desk desk) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			deskRepo.delete(desk);
+			responceObject.setCode(200);
+			responceObject.setMsg("Desk Deleted Successfully");
+		} catch (Exception e) {
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
+
+	
+	@RequestMapping(value = "/deleteDepartment", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject deleteDepartment(@RequestBody Department department) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			departmentRepo.delete(department);
+			responceObject.setCode(200);
+			responceObject.setMsg("Department Deleted Successfully");
+		} catch (Exception e) {
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
+
+	
+	
+	@RequestMapping(value = "/deleteCostCenter", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject deleteCostCenter(@RequestBody CostCenter costCenter) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			costCenterRepo.delete(costCenter);
+			responceObject.setCode(200);
+			responceObject.setMsg("CostCenter Deleted Successfully");
+		} catch (Exception e) {
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
+
+	@RequestMapping(value = "/deletSpare", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject deletSpare(@RequestBody Spare  spare) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			spareRepo.delete(spare);
+			responceObject.setCode(200);
+			responceObject.setMsg("Spare Deleted Successfully");
+		} catch (Exception e) {
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
+
+	@RequestMapping(value = "/deleteBrand", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject deleteBrand(@RequestBody Brand brand) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			brandRepo.delete(brand);
+			responceObject.setCode(200);
+			responceObject.setMsg("Brand Deleted Successfully");
+		} catch (Exception e) {
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
+
+	@RequestMapping(value = "/deleteBranch", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject deleteBranch(@RequestBody Branch  branch) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			branchRepo.delete(branch);
+			responceObject.setCode(200);
+			responceObject.setMsg("Branch Deleted Successfully");
+		} catch (Exception e) {
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
+
+	
+	
+	
+	
 	// Get All City List
 	@RequestMapping(value = "/getAllUnitOfMeasurement", method = RequestMethod.GET)
 	public @ResponseBody List<UnitOfMeasurement> getAllUnitOfMeasurement() {

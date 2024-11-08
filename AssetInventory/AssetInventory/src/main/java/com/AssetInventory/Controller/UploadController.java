@@ -187,7 +187,76 @@ public class UploadController {
 	@Autowired
 	CategoryRepo categoryRepo;
 	
-	
+	@RequestMapping(value = "/descardAll", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject descardAll(@RequestBody UploadDetial uploadDetial) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			
+		
+				if(uploadDetial.getModuleName().equalsIgnoreCase("Spare")) {
+					List<UploadSpare> uploadSpares=uploadSpareRepo.findByUserDetailsId(uploadDetial.getId());
+					uploadSpareRepo.deleteAll(uploadSpares);
+				}
+				if(uploadDetial.getModuleName().equalsIgnoreCase("Desk")) {
+					List<UploadDesk> uploadSpares=uploadDeskRepo.findByUserDetailsId(uploadDetial.getId());
+					uploadDeskRepo.deleteAll(uploadSpares);
+				}
+				if(uploadDetial.getModuleName().equalsIgnoreCase("Project")) {
+					List<UploadProject> uploadSpares=uploadProjectRepo.findByUserDetailsId(uploadDetial.getId());
+					uploadProjectRepo.deleteAll(uploadSpares);
+				}
+				if(uploadDetial.getModuleName().equalsIgnoreCase("Room")) {
+					List<UploadRoom> uploadSpares=uploadRoomRepo.findByUserDetailsId(uploadDetial.getId());
+					uploadRoomRepo.deleteAll(uploadSpares);
+				}
+				if(uploadDetial.getModuleName().equalsIgnoreCase("Department")) {
+					List<UploadDepartment> uploadSpares=uploadDepartmentRepo.findByUserDetailsId(uploadDetial.getId());
+					uploadDepartmentRepo.deleteAll(uploadSpares);
+				}
+				if(uploadDetial.getModuleName().equalsIgnoreCase("Branch")) {
+					List<UploadBranch> uploadSpares=uploadBranchRepo.findByUserDetailsId(uploadDetial.getId());
+					uploadBranchRepo.deleteAll(uploadSpares);
+				}
+				if(uploadDetial.getModuleName().equalsIgnoreCase("Brand")) {
+					List<UploadBrand> uploadSpares=uploadBrandRepo.findByUserDetailsId(uploadDetial.getId());
+					uploadBrandRepo.deleteAll(uploadSpares);
+				}
+				if(uploadDetial.getModuleName().equalsIgnoreCase("Designation")) {
+					List<UploadDesignation> uploadSpares=uploadDesignationRepo.findByUserDetailsId(uploadDetial.getId());
+					uploadDesignationRepo.deleteAll(uploadSpares);
+				}
+				if(uploadDetial.getModuleName().equalsIgnoreCase("Cost Center")) {
+					List<UploadCostCenter> uploadSpares=uploadCostCenterRepo.findByUserDetailsId(uploadDetial.getId());
+					uploadCostCenterRepo.deleteAll(uploadSpares);
+				}
+				if(uploadDetial.getModuleName().equalsIgnoreCase("Supplier")) {
+					List<UploadSupplier> uploadSpares=uploadSupplierRepo.findByUserDetailsId(uploadDetial.getId());
+					uploadSupplierRepo.deleteAll(uploadSpares);
+				}
+				if(uploadDetial.getModuleName().equalsIgnoreCase("Material")) {
+					List<UploadMaterial> uploadSpares=uploadMaterialRepo.findByUserDetailsId(uploadDetial.getId());
+					uploadMaterialRepo.deleteAll(uploadSpares);
+				}
+				if(uploadDetial.getModuleName().equalsIgnoreCase("Employee")) {
+					List<UploadEmployee> uploadSpares=uploadEmployeeRepo.findByUserDetailsId(uploadDetial.getId());
+					uploadEmployeeRepo.deleteAll(uploadSpares);
+				}
+				if(uploadDetial.getModuleName().equalsIgnoreCase("Subsidiary")) {
+					List<UploadSubsidiary> uploadSpares=uploadSubsidiaryRepo.findByUserDetailsId(uploadDetial.getId());
+					uploadSubsidiaryRepo.deleteAll(uploadSpares);
+				}
+				uploadDetialRepo.delete(uploadDetial);
+				
+			
+			responceObject.setCode(200);
+			responceObject.setMsg("Descard All  Successfully");
+		} catch (Exception e) {
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
 	
 	
 	@RequestMapping(value = "/getAllUploadDetialByLimit", method = RequestMethod.GET)
@@ -300,6 +369,10 @@ public class UploadController {
 					List<UploadEmployee> uploadSpares=uploadEmployeeRepo.findByUserDetailsId(optional.get().getId());
 					uploadDataResDTO.setEmployees(uploadSpares);
 				}
+				if(optional.get().getModuleName().equalsIgnoreCase("Subsidiary")) {
+					List<UploadSubsidiary> uploadSpares=uploadSubsidiaryRepo.findByUserDetailsId(optional.get().getId());
+					uploadDataResDTO.setSubsidiaries(uploadSpares);
+				}
 				uploadDataResDTO.setCode(200);
 				uploadDataResDTO.setMessage("Data Fetch Successfully");
 			}
@@ -314,17 +387,79 @@ public class UploadController {
 	
 	
 	
+	
+	
 	@RequestMapping(value = "/approveSpare", method = RequestMethod.POST)
 	public @ResponseBody ResponceObject approveSpare(@RequestBody List<UploadSpare> list) {
 		ResponceObject responceObject = new ResponceObject();
 		try {
 			for(UploadSpare obj:list) {
 				Spare spare= new Spare();
+				spare.setBrand(obj.getBrand());
+				spare.setCategory(obj.getCategory());
+				spare.setConsumeBit(obj.getConsumeBit());
+				spare.setSpareName(obj.getSpareName());
+				spare.setSpareUniqueCode(obj.getSpareUniqueCode());
+				spare.setSpecification(obj.getSpecification());
+				spare.setType(obj.getType());
+				spareRepo.save(spare);
+				uploadSpareRepo.delete(obj);
 			}
 		
 			
 			responceObject.setCode(200);
-			responceObject.setMsg("Asset request added Successfully");
+			responceObject.setMsg("Spare Approved Successfully");
+		} catch (Exception e) {
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
+	
+	@RequestMapping(value = "/approveDesk", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject approveDesk(@RequestBody List<UploadDesk> list) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			for(UploadDesk obj:list) {
+				Desk desk= new Desk();
+				desk.setActive(obj.getActive());
+				desk.setAllocate(obj.getAllocate());
+				desk.setBay(obj.getBay());
+				desk.setDeskCode(obj.getDeskCode());
+				desk.setFloor(obj.getFloor());
+				deskRepo.save(desk);
+				uploadDeskRepo.delete(obj);
+			}
+		
+			
+			responceObject.setCode(200);
+			responceObject.setMsg("Desk Approved Successfully");
+		} catch (Exception e) {
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
+	
+	
+	@RequestMapping(value = "/approveWorkLocation", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject approveWorkLocation(@RequestBody List<UploadWorklocation> list) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			for(UploadWorklocation obj:list) {
+				Worklocation newObj= new Worklocation();
+				newObj.setActive(obj.getActive());
+				newObj.setWorkLocationName(obj.getWorkLocationName());
+			
+				worklocationRepo.save(newObj);
+				uploadWorklocationRepo.delete(obj);
+			}
+		
+			
+			responceObject.setCode(200);
+			responceObject.setMsg("Worklocation Approved Successfully");
 		} catch (Exception e) {
 			System.err.println(e.toString());
 			responceObject.setCode(500);
@@ -335,18 +470,152 @@ public class UploadController {
 	
 	
 	
+	@RequestMapping(value = "/approveProject", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject approveProject(@RequestBody List<UploadProject> list) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			for(UploadProject obj:list) {
+				Project newObj= new Project();
+				newObj.setActive(obj.getActive());
+				newObj.setProjectName(obj.getProjectName());
+			
+				projectRepo.save(newObj);
+				uploadProjectRepo.delete(obj);
+			}
+		
+			
+			responceObject.setCode(200);
+			responceObject.setMsg("Project Approved Successfully");
+		} catch (Exception e) {
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
 	
 	
 	
+	@RequestMapping(value = "/approveSubsidiary", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject approveSubsidiary(@RequestBody List<UploadSubsidiary> list) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			for(UploadSubsidiary obj:list) {
+				Subsidiary newObj= new Subsidiary();
+				newObj.setActive(obj.getActive());
+				newObj.setSubsidiaryName(obj.getSubsidiaryName());
+			
+				subsidiaryRepo.save(newObj);
+				uploadSubsidiaryRepo.delete(obj);
+			}
+		
+			
+			responceObject.setCode(200);
+			responceObject.setMsg("Subsidiary Approved Successfully");
+		} catch (Exception e) {
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
 	
 	
+	@RequestMapping(value = "/approveRoom", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject approveRoom(@RequestBody List<UploadRoom> list) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			for(UploadRoom obj:list) {
+				Room newObj= new Room();
+				newObj.setActive(obj.getActive());
+				newObj.setRoomName(obj.getRoomName());
+			
+				roomRepo.save(newObj);
+				uploadRoomRepo.delete(obj);
+			}
+		
+			
+			responceObject.setCode(200);
+			responceObject.setMsg("Room Approved Successfully");
+		} catch (Exception e) {
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
+		
 	
+	@RequestMapping(value = "/approveDepartment", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject approveDepartment(@RequestBody List<UploadDepartment> list) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			for(UploadDepartment obj:list) {
+				Department newObj= new Department();
+				newObj.setActive(obj.getActive());
+				newObj.setDepartmentName(obj.getDepartmentName());
+			
+				departmentRepo.save(newObj);
+				uploadDepartmentRepo.delete(obj);
+			}
+		
+			
+			responceObject.setCode(200);
+			responceObject.setMsg("Department Approved Successfully");
+		} catch (Exception e) {
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
+	@RequestMapping(value = "/approveCostCenter", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject approveCostCenter(@RequestBody List<UploadCostCenter> list) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			for(UploadCostCenter obj:list) {
+				CostCenter newObj= new CostCenter();
+				newObj.setActive(obj.getActive());
+				newObj.setCostCenterName(obj.getCostCenterName());
+			
+				costCenterRepo.save(newObj);
+				uploadCostCenterRepo.delete(obj);
+			}
+		
+			
+			responceObject.setCode(200);
+			responceObject.setMsg("CostCenter Approved Successfully");
+		} catch (Exception e) {
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
 	
-	
-	
-	
-	
-	
+	@RequestMapping(value = "/approveBranch", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject approveBranch(@RequestBody List<UploadBranch> list) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			for(UploadBranch obj:list) {
+				Branch newObj= new Branch();
+				newObj.setActive(obj.getActive());
+				newObj.setBranchName(obj.getBranchName());
+			
+				branchRepo.save(newObj);
+				uploadBranchRepo.delete(obj);
+			}
+		
+			
+			responceObject.setCode(200);
+			responceObject.setMsg("Branch Approved Successfully");
+		} catch (Exception e) {
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
 
 	@PostMapping(value = "/uploaSpare", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public @ResponseBody ResponceObject uploaSpare(@RequestParam("files") MultipartFile[] files,
@@ -375,11 +644,12 @@ public class UploadController {
 						Sheet datatypeSheet = workbook.getSheetAt(0);
 						int i = 1;
 
-						UploadDetial uploadDetial = new UploadDetial();
-
+					UploadDetial uploadDetial = new UploadDetial();
+					uploadDetial.setFileUploadDate(new Date());
 						Optional<User> optional = userRepo.findById(Integer.valueOf(uploadedBy));
 						String filename = file.getOriginalFilename();
 						uploadDetial.setFileName(filename);
+						
 						uploadDetial.setModuleName("Spare");
 						uploadDetial.setNoOfData(datatypeSheet.getLastRowNum());
 						uploadDetial.setStatus("Pending");
@@ -471,7 +741,8 @@ public class UploadController {
 						Workbook workbook = new XSSFWorkbook(excelFile);
 						Sheet datatypeSheet = workbook.getSheetAt(0);
 						int i = 1;
-						UploadDetial uploadDetial = new UploadDetial();
+					UploadDetial uploadDetial = new UploadDetial();
+					uploadDetial.setFileUploadDate(new Date());
 
 						Optional<User> optional = userRepo.findById(Integer.valueOf(uploadedBy));
 						String filename = file.getOriginalFilename();
@@ -561,7 +832,8 @@ public class UploadController {
 						Workbook workbook = new XSSFWorkbook(excelFile);
 						Sheet datatypeSheet = workbook.getSheetAt(0);
 						int i = 1;
-						UploadDetial uploadDetial = new UploadDetial();
+					UploadDetial uploadDetial = new UploadDetial();
+					uploadDetial.setFileUploadDate(new Date());
 
 						Optional<User> optional = userRepo.findById(Integer.valueOf(uploadedBy));
 						String filename = file.getOriginalFilename();
@@ -647,7 +919,8 @@ public class UploadController {
 						Workbook workbook = new XSSFWorkbook(excelFile);
 						Sheet datatypeSheet = workbook.getSheetAt(0);
 						int i = 1;
-						UploadDetial uploadDetial = new UploadDetial();
+					UploadDetial uploadDetial = new UploadDetial();
+					uploadDetial.setFileUploadDate(new Date());
 
 						Optional<User> optional = userRepo.findById(Integer.valueOf(uploadedBy));
 						String filename = file.getOriginalFilename();
@@ -731,7 +1004,8 @@ public class UploadController {
 						Workbook workbook = new XSSFWorkbook(excelFile);
 						Sheet datatypeSheet = workbook.getSheetAt(0);
 						int i = 1;
-						UploadDetial uploadDetial = new UploadDetial();
+					UploadDetial uploadDetial = new UploadDetial();
+					uploadDetial.setFileUploadDate(new Date());
 
 						Optional<User> optional = userRepo.findById(Integer.valueOf(uploadedBy));
 						String filename = file.getOriginalFilename();
@@ -816,7 +1090,8 @@ public class UploadController {
 						Workbook workbook = new XSSFWorkbook(excelFile);
 						Sheet datatypeSheet = workbook.getSheetAt(0);
 						int i = 1;
-						UploadDetial uploadDetial = new UploadDetial();
+					UploadDetial uploadDetial = new UploadDetial();
+					uploadDetial.setFileUploadDate(new Date());
 
 						Optional<User> optional = userRepo.findById(Integer.valueOf(uploadedBy));
 						String filename = file.getOriginalFilename();
@@ -914,7 +1189,8 @@ public class UploadController {
 						Workbook workbook = new XSSFWorkbook(excelFile);
 						Sheet datatypeSheet = workbook.getSheetAt(0);
 						int i = 1;
-						UploadDetial uploadDetial = new UploadDetial();
+					UploadDetial uploadDetial = new UploadDetial();
+					uploadDetial.setFileUploadDate(new Date());
 
 						Optional<User> optional = userRepo.findById(Integer.valueOf(uploadedBy));
 						String filename = file.getOriginalFilename();
@@ -1002,7 +1278,8 @@ public class UploadController {
 						Workbook workbook = new XSSFWorkbook(excelFile);
 						Sheet datatypeSheet = workbook.getSheetAt(0);
 						int i = 1;
-						UploadDetial uploadDetial = new UploadDetial();
+					UploadDetial uploadDetial = new UploadDetial();
+					uploadDetial.setFileUploadDate(new Date());
 
 						Optional<User> optional = userRepo.findById(Integer.valueOf(uploadedBy));
 						String filename = file.getOriginalFilename();
@@ -1086,7 +1363,8 @@ public class UploadController {
 						Workbook workbook = new XSSFWorkbook(excelFile);
 						Sheet datatypeSheet = workbook.getSheetAt(0);
 						int i = 1;
-						UploadDetial uploadDetial = new UploadDetial();
+					UploadDetial uploadDetial = new UploadDetial();
+					uploadDetial.setFileUploadDate(new Date());
 
 						Optional<User> optional = userRepo.findById(Integer.valueOf(uploadedBy));
 						String filename = file.getOriginalFilename();
@@ -1169,7 +1447,8 @@ public class UploadController {
 						Workbook workbook = new XSSFWorkbook(excelFile);
 						Sheet datatypeSheet = workbook.getSheetAt(0);
 						int i = 1;
-						UploadDetial uploadDetial = new UploadDetial();
+					UploadDetial uploadDetial = new UploadDetial();
+					uploadDetial.setFileUploadDate(new Date());
 
 						Optional<User> optional = userRepo.findById(Integer.valueOf(uploadedBy));
 						String filename = file.getOriginalFilename();
@@ -1252,12 +1531,13 @@ public class UploadController {
 						Workbook workbook = new XSSFWorkbook(excelFile);
 						Sheet datatypeSheet = workbook.getSheetAt(0);
 						int i = 1;
-						UploadDetial uploadDetial = new UploadDetial();
+					UploadDetial uploadDetial = new UploadDetial();
+					uploadDetial.setFileUploadDate(new Date());
 
 						Optional<User> optional = userRepo.findById(Integer.valueOf(uploadedBy));
 						String filename = file.getOriginalFilename();
 						uploadDetial.setFileName(filename);
-						uploadDetial.setModuleName("Spare");
+						uploadDetial.setModuleName("Subsidiary");
 						uploadDetial.setNoOfData(datatypeSheet.getLastRowNum());
 						uploadDetial.setStatus("Pending");
 						uploadDetial.setUploadedBy(optional.get());
@@ -1336,7 +1616,8 @@ public class UploadController {
 						Workbook workbook = new XSSFWorkbook(excelFile);
 						Sheet datatypeSheet = workbook.getSheetAt(0);
 						int i = 1;
-						UploadDetial uploadDetial = new UploadDetial();
+					UploadDetial uploadDetial = new UploadDetial();
+					uploadDetial.setFileUploadDate(new Date());
 
 						Optional<User> optional = userRepo.findById(Integer.valueOf(uploadedBy));
 						String filename = file.getOriginalFilename();
@@ -1479,7 +1760,8 @@ public class UploadController {
 						Workbook workbook = new XSSFWorkbook(excelFile);
 						Sheet datatypeSheet = workbook.getSheetAt(0);
 						int i = 1;
-						UploadDetial uploadDetial = new UploadDetial();
+					UploadDetial uploadDetial = new UploadDetial();
+					uploadDetial.setFileUploadDate(new Date());
 
 						Optional<User> optional = userRepo.findById(Integer.valueOf(uploadedBy));
 						String filename = file.getOriginalFilename();
@@ -1583,7 +1865,8 @@ public class UploadController {
 						Workbook workbook = new XSSFWorkbook(excelFile);
 						Sheet datatypeSheet = workbook.getSheetAt(0);
 						int i = 1;
-						UploadDetial uploadDetial = new UploadDetial();
+					UploadDetial uploadDetial = new UploadDetial();
+					uploadDetial.setFileUploadDate(new Date());
 
 						Optional<User> optional = userRepo.findById(Integer.valueOf(uploadedBy));
 						String filename = file.getOriginalFilename();

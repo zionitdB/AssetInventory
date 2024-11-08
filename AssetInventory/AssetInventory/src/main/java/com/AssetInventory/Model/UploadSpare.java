@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 @Table(name="upload_spare_data")
 public class UploadSpare {
 	@Id
-	@GeneratedValue
+	 @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
 	

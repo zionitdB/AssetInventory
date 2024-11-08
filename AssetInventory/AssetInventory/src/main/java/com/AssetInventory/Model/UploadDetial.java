@@ -1,5 +1,7 @@
 package com.AssetInventory.Model;
 
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +28,11 @@ public class UploadDetial {
 	@Column(name="file_name")
 	private String fileName;
 	
+	
+	@Column(name="file_upload_date")
+	private Date fileUploadDate;
+	
+	
 	@Column(name="no_of_data")
 	private int noOfData;
 	
@@ -42,6 +49,14 @@ public class UploadDetial {
 
 	public int getId() {
 		return id;
+	}
+
+	public Date getFileUploadDate() {
+		return fileUploadDate;
+	}
+
+	public void setFileUploadDate(Date fileUploadDate) {
+		this.fileUploadDate = fileUploadDate;
 	}
 
 	public void setId(int id) {

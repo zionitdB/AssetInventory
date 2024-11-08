@@ -19,8 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.AssetInventory.DTO.ResponceObject;
+import com.AssetInventory.Model.AssetAllocation;
 import com.AssetInventory.Model.AssetInventory;
 import com.AssetInventory.Model.AssetInventoryRegistation;
+import com.AssetInventory.Model.Employee;
+import com.AssetInventory.Model.User;
+import com.AssetInventory.Repository.AssetAllocationRepo;
 import com.AssetInventory.Repository.AssetInventoryRegistationRepo;
 import com.AssetInventory.Repository.AssetInventoryRepo;
 import com.AssetInventory.Service.AssetInventoryService;
@@ -39,6 +43,8 @@ public class InventoryController {
 	AssetInventoryService assetInventoryService;
 	@Autowired
 	AssetInventoryRegistationRepo assetInventoryRegistationRepo;
+	@Autowired
+	AssetAllocationRepo assetAllocationRepo;
 	
 	@RequestMapping(value = "/addNewAssetInventory", method = RequestMethod.POST)
 	public @ResponseBody ResponceObject addNewAssetInventory(@RequestBody AssetInventoryRegistation assetInventoryRegistation) {
@@ -164,6 +170,48 @@ public class InventoryController {
 		return responceObject;
 	}
 	
+	@RequestMapping(value = "/updateInventory", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject updateInventory(@RequestBody AssetInventory assetInventory) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			
+			
+			assetInventoryRepo.save(assetInventory);
+			responceObject.setCode(200);
+			responceObject.setMsg("Inventory Detials Updated ...Successfully");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
+	
+	@RequestMapping(value = "/deleteInventory", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject deleteInventory(@RequestBody AssetInventory assetInventory) {
+		ResponceObject responceObject = new ResponceObject();
+		try {
+			Optional<AssetAllocation> optional=assetAllocationRepo.getAllocatedAssetByAssetInventorytId(assetInventory.getAsset_inventory_id());
+			if (optional.isPresent()) {
+				responceObject.setCode(500);
+				responceObject.setMsg("Can not be Deleted..............Inventory are allocated ");
+			}else {
+				assetInventoryRepo.delete(assetInventory);
+				responceObject.setCode(200);
+				responceObject.setMsg("Inventory Detials Deleted ...Successfully");
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.toString());
+			responceObject.setCode(500);
+			responceObject.setMsg("Something Wrong");
+		}
+		return responceObject;
+	}
 	@RequestMapping(value = "/getAvailableAssetInvemtoryCode", method = RequestMethod.GET)
 	public @ResponseBody Set<String> getAvailableAssetInvemtoryCode(@RequestParam("materialId") int materialId) {
 		//List<AssetRequest> list= new  ArrayList<AssetRequest>();
